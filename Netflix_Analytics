@@ -1,0 +1,42 @@
+#In this SQL code, I'm querying a database that's holding Nexflix data to answer questions about the data. 
+
+#0 List out the movies and include the following attributes: Director, Cast, Movie Title, Rating
+
+SELECT Peeps.director, Peeps.cast, Tites.title, Tites.rating
+FROM "CharlotteChaze/BreakIntoTech"."netflix_people" Peeps
+LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" Titles
+on Peeps.show_id = Titles.show_id
+where Titles.type = 'Movie';
+
+#1. How many movie titles are there in the database? (movies only, not tv shows) 
+
+SELECT count(*)
+from "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+where type = 'Movie';
+
+#2. When was the most recent batch of tv shows and/or movies added to the database? 
+
+SELECT max(date(date_added))
+from "CharlotteChaze/BreakIntoTech"."netflix_titles_info";
+
+#3. List all the movies and tv shows in alphabetical order. 
+
+SELECT title
+from "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+Order by title asc;
+
+#4. Who was the Director for the movie Bright Star? 
+
+SELECT Titles.title, Peo.director
+from "CharlotteChaze/BreakIntoTech"."netflix_titles_info" Titles
+Left Join "CharlotteChaze/BreakIntoTech"."netflix_people" Peo
+on Titles.show_id = Peo.show_id
+where Titles.title = 'Bright Star';
+
+#5. What is the oldest movie in the database and what year was it made?
+
+SELECT title, release_year
+from "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+where type = 'Movie'
+order by release_year asc
+LIMIT 1;
