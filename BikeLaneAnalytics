@@ -1,0 +1,24 @@
+#  List all the bike lanes that have an average safety rating of 4.0 or higher. Then see 
+# the average safety rating for each of those bike lanes, and a label that says "Safe Lane".
+
+with SafeLanes AS (
+    Select street, AVG(safetyrating) as AvgRate
+    from CityBikeLanes
+    group by street
+    )
+
+select street, AvgRate, 'safe lane' as 'label'
+from SafeLanes
+where AvgRate >= 4.0
+order by AvgRate
+
+# We want to know the street, safetyrating, and average safety rating based on street. we then want to add a label based on the average safety rating for the street
+# the ratings are divded where 4 or more "Leave-as-is", less than 2.5 "Remove", and otherwise "Improvements Needed"
+select street, safetyrating,
+AVG(safetyrating) OVER (Partition by street) as 'AvgSafetyRating',
+Case 
+    WHEN AVG(safetyrating) OVER (PARTITION BY street) >=4 THEN "Leave As-Is"
+    WHEN AVG(safetyrating) OVER (PARTITION BY street) <2.5 THEN "Remove"
+    else 'Improvements Needed'
+    END as 'Recommendation'
+from CityBikeLanes;
