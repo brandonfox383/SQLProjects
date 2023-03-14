@@ -1,0 +1,47 @@
+# First step was that I downloaded a .csv file of the top 50 songs on Spotify in 2021, downloaded from Kaggle
+# Next, I created a table with the attributes in the .csv file in SQLite
+# Finally, I imported all of the data from the .csv fiel into my database]
+
+# Table Creation
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+song_key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+song_mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness decimal(8,7) NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL )
+
+# Then I inserted the Spotify data into the table
+
+# Finally, I explored the data using the following SQL queries and asked a couple of questions
+
+# I wanted to know how many songs the top 3 artists had on the top 50 list
+select artist_name, count(*) as NumberOfTop50Tracks
+from BIT_DB.Spotifydata
+Group by artist_name
+Order by Count(id) desc
+LIMIT 3
+
+# I wanted to know which tracks had a popularity less that 80/100 but had energy greater than 0.80/1.00
+select track_name, popularity, energy
+from BIT_DB.Spotifydata
+where popularity < 80 AND energy > 0.80
+
+# List the artists, their number of top songs, and average popularity that have an average popularity of 75 and at least 2 songs in the list
+select artist_name, count(*) TotalSongs, avg(popularity) as AvgPopularity
+from BIT_DB.Spotifydata
+group by artist_name
+Having AvgPopularity > 75 and count(*) >= 2
+Order by count(*) desc
