@@ -45,3 +45,16 @@ from BIT_DB.Spotifydata
 group by artist_name
 Having AvgPopularity > 75 and count(*) >= 2
 Order by count(*) desc
+
+# Now I want to know which artists have an average rating of 90 and to put the tag 'Top Star' for all those that do (Using CTE Statements)
+WITH tempTable AS (
+    SELECT
+    artist_name, avg(popularity) as AvgPop
+    from Spotifydata
+    group by artist_name
+    )
+
+Select artist_name, AvgPop, 'Top Star' AS tag
+from tempTable
+where AvgPop >=90
+order by avgPop desc;
