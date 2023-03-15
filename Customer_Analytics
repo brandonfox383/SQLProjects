@@ -20,6 +20,8 @@ AND feb.orderID <> 'Order ID';
 #4 Which product was the cheapest one sold in January, and what was the price?
 
 # GOTCHA BITCH
+
+# pluck you
 SELECT distinct product, price
 from BIT_DB.JanSales
 WHERE price in (select min(price) from BIT_DB.JanSales);
