@@ -1,1 +1,13 @@
+-- Select customers that are not from USA
+select CustomerId, FirstName, LastName, Country
+from chinook.customers
+where Country <> 'USA'
 
+-- Find all the customers from Brazil and including their invoiceid, date of invoice, and billing company 
+select cust.FirstName, cust.LastName, inv.InvoiceId, inv.InvoiceDate, inv.BillingCountry
+from chinook.customers cust
+left join Invoices inv on
+cust.CustomerId = inv.CustomerId
+where cust.Country = 'Brazil'
+
+-- 
