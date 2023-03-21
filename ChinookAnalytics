@@ -10,4 +10,34 @@ left join Invoices inv on
 cust.CustomerId = inv.CustomerId
 where cust.Country = 'Brazil'
 
--- 
+-- Write a query that includes the purchased track name and artist name with each invoice line ID.
+select t.Name as 'Track Name', ar.Name as 'Artist Name', i.InvoiceLineId as 'Invoice Number'
+from chinook.invoice_items i
+left join chinook.tracks t
+on i.TrackId = t.TrackId
+inner join chinook.albums al
+on al.AlbumId = t.AlbumId
+left join chinook.artists ar
+on ar.ArtistId = al.ArtistId
+
+-- Write a query that shows all the Tracks, and include the Album name, Media type, and Genre.
+select t.Name as 'Track Name', al.Title as 'Album Name', m.Name as 'Media Type', g.Name as 'Genre'
+from chinook.tracks t
+left join chinook.albums al
+on t.AlbumId = al.AlbumId
+left join chinook.media_types m
+on t.MediaTypeId = m.MediaTypeId
+left join chinook.genres g
+on t.GenreId = g.GenreId
+
+-- Which sales agent made the most dollars in sales in 2009?
+select e.FirstName, e.LastName,
+round(sum(i.Total), 2) as 'Total Sales'
+from chinook.employees e
+join chinook.customers c
+on e.EmployeeId = c.SupportRepId
+join chinook.invoices i
+on c.CustomerId = i.CustomerId
+where strftime('%Y', i.InvoiceDate) like 2009
+group by e.FirstName
+order by round(sum(i.Total), 2) desc
