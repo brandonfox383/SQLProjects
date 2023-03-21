@@ -6,7 +6,7 @@ SELECT count(orderID)
 FROM BIT_DB.JanSales
 WHERE length(orderID) = 6
 AND orderID <> 'Order ID'
-AND Product = 'iPhone';
+AND Product = 'iPhone'
 
 /*#3 Select the customer account numbers for all the orders that were placed in February.*/
 
@@ -15,13 +15,13 @@ FROM BIT_DB.FebSales feb
 LEFT JOIN BIT_DB.customers cust
 on feb.orderID = cust.order_id
 WHERE length(feb.orderID) = 6
-AND feb.orderID <> 'Order ID';
+AND feb.orderID <> 'Order ID'
 
 /*#4 Which product was the cheapest one sold in January, and what was the price?*/
 
 SELECT distinct product, price
 from BIT_DB.JanSales
-WHERE price in (select min(price) from BIT_DB.JanSales);
+WHERE price in (select min(price) from BIT_DB.JanSales)
 
 /*#5 What is the total revenue for each product sold in January?*/
 
